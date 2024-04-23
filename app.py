@@ -4,11 +4,12 @@ import streamlit_authenticator as stauth
 import streamlit_option_menu
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
+import pickle
 
 import yaml
 from yaml.loader import SafeLoader
 
-from utils import train, test, plot_distrib_target, plot_numerical_features, plot_categorical_features, plot_count_plot_by_target, plot_kde_by_target
+from utils import train, test, plot_distrib_target, plot_numerical_features, plot_categorical_features, plot_count_plot_by_target, plot_kde_by_target, get_default_values
 with open('./config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
@@ -86,6 +87,13 @@ if st.session_state["authentication_status"]:
 
     if selected == "Prediction":
         st.header("Prédiction")
+        with open("xgboost_model.pkl", "rb") as f:
+            loaded_model = pickle.load(f)
+
+        st.write(get_default_values(train))
+
+        X_test = []
+        y_pred = loaded_model.predict(X_test)
 
 
 elif st.session_state["authentication_status"] is False:

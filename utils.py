@@ -12,6 +12,13 @@ test = pd.read_csv('data/test.csv')
 train.drop(columns="id", axis=1, inplace=True)
 test.drop(columns="id", axis=1, inplace=True)
 
+selected_features = ['temp_of_extremities', 'peristalsis', 'abdomen', 'rectal_exam_feces', 'total_protein', 'abdominal_distention']  # noqa
+
+
+def get_default_values(df):
+    defaults_values = df.mode().iloc[0].to_dict()
+    return defaults_values
+
 
 def plot_distrib_target(df, target):
     fig, ax = plt.subplots()
